@@ -26,6 +26,7 @@
       })
       .then(res => res.json())
       .then(data => {
+        console.log("🔍 Respuesta del backend:", data); 
         const div = document.getElementById("resultado");
         if (data.status === "APPROVED") {
           div.innerHTML = "<h2 style='color:green;'>✅ Pago aprobado</h2>";
