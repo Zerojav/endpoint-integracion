@@ -1,10 +1,29 @@
-fetch("https://endpoint-integracion.onrender.com/verificar-transaccion", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    id: parseInt(id),
-    clientTransactionId: clientTransactionId
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  const clientTransactionId = params.get("clientTransactionId");
+
+  fetch("https://endpoint-integracion.onrender.com/verificar-transaccion", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      id: parseInt(id),
+      clientTransactionId: clientTransactionId
+    })
   })
-})
+  .then(res => res.json())
+  .then(data => {
+    const div = document.getElementById("resultado");
+    if (data.status === "APPROVED") {
+      div.innerHTML = "<h2 style='color:green;'>✅ Pago aprobado</h2>";
+    } else {
+      div.innerHTML = "<h2 style='color:red;'>❌ Pago rechazado</h2>";
+    }
+  })
+  .catch(err => {
+    document.getElementById("resultado").innerHTML = "⚠️ Error al verificar pago.";
+    console.error(err);
+  });
+</script>
