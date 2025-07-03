@@ -29,6 +29,7 @@ app.listen(PORT, () => {
 
 app.post('/verificar-transaccion', async (req, res) => {
   const { id, clientTransactionId } = req.body;
+  console.log("Verificando:", id, clientTransactionId);
 
   try {
     const respuesta = await fetch('https://pay.payphonetodoesposible.com/api/button/V2/Confirm', {
