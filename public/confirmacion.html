@@ -16,7 +16,7 @@
 
       console.log("🧾 ID:", id);
       console.log("🔖 clientTransactionId:", clientTransactionId);
-
+      setTimeout(() => {
       fetch("https://endpoint-integracion.onrender.com/verificar-transaccion", {
         method: "POST",
         headers: {
@@ -42,7 +42,7 @@
         if (div) div.innerHTML = "⚠️ Error al verificar pago.";
         console.error(err);
       });
-    });
+    });}, 3000); // Esperar 3 segundos
   </script>
 </body>
 </html>
