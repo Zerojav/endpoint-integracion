@@ -9,12 +9,13 @@
   <div id="resultado"></div>
 
   <script>
-    console.log("🧾 ID:", id);
-    console.log("🔖 clientTransactionId:", clientTransactionId);
     document.addEventListener("DOMContentLoaded", () => {
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
       const clientTransactionId = params.get("clientTransactionId");
+
+      console.log("🧾 ID:", id);
+      console.log("🔖 clientTransactionId:", clientTransactionId);
 
       fetch("https://endpoint-integracion.onrender.com/verificar-transaccion", {
         method: "POST",
