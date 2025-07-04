@@ -32,8 +32,7 @@ app.post('/verificar-transaccion', async (req, res) => {
   console.log("Verificando:", id, clientTransactionId);
 
   try {
-    const respuesta = await fetch('https://sandbox.payphone.com/api/button/V2/Confirm', {
-      method: 'POST',
+    const respuesta = await fetch('https://pay.payphonetodoesposible.com/api/button/V2/Confirm', {      method: 'POST',
       headers: {
         'Authorization': 'Bearer wrPUSQfjR-GCEFuaIWVGK4wvBycFljhVQTyO8q1i56c7GnoBXh6tosgP5cQxR0Xx5VA4pbb-xb12qVFnkTcR54MR3zx-u16Qf7WKf64We9j-SNXcsCGLICgwiI2bhfurKCtLL2p-XiL8Tx1lxXNou5Tool60cznwFLN57zFBTLgEz5a3nm7wvtakueGM1zqg9Ygs5HuJlmUIY51tfpVgf_gxmAyQvhwi4qfQ8o2XZkmGhlN8bdfM_rpVmjk006JdiehQphBPScuzRHZQYrrnBxfUbZyoaUFrZkicIhtryaDdntIEFuYc8rjHK0vbmZGh7ExJCyBW5EGQiv5QkDCTmhQVXis',
         'Content-Type': 'application/json'
