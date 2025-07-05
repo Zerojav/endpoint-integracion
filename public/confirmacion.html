@@ -3,6 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <title>Confirmación de Pago</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f8;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin-top: 50px;
+      color: #555;
+    }
+
+    #resultado {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-top: 30px;
+      max-width: 500px;
+      width: 90%;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    li strong {
+      color: #555;
+      display: inline-block;
+      min-width: 150px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
   <h1>⏳ Verificando pago...</h1>
@@ -16,33 +76,50 @@
 
       console.log("🧾 ID:", id);
       console.log("🔖 clientTransactionId:", clientTransactionId);
+
       setTimeout(() => {
-      fetch("https://endpoint-integracion.onrender.com/verificar-transaccion", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          id: parseInt(id),
-          clientTransactionId: clientTransactionId
+        fetch("https://endpoint-integracion.onrender.com/verificar-transaccion", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            id: parseInt(id),
+            clientTxId: clientTransactionId
+          })
         })
-      })
-      .then(res => res.json())
-      .then(data => {
-        console.log("🔍 Respuesta del backend:", data); 
-        const div = document.getElementById("resultado");
-        if (data.transactionStatus === "Approved") {
-          div.innerHTML = "<h2 style='color:green;'>✅ Pago aprobado</h2>";
-        } else {
-          div.innerHTML = "<h2 style='color:red;'>❌ Pago rechazado</h2>";
-        }
-      })
-      .catch(err => {
-        const div = document.getElementById("resultado");
-        if (div) div.innerHTML = "⚠️ Error al verificar pago.";
-        console.error(err);
-      });
-    });}, 3000); // Esperar 3 segundos
+        .then(res => res.json())
+        .then(data => {
+          console.log("🔍 Respuesta del backend:", data);
+          const div = document.getElementById("resultado");
+
+          if (data.transactionStatus === "Approved") {
+            div.innerHTML = `
+              <h2 style="color:green;">✅ Pago aprobado</h2>
+              <h3>📄 Factura Digital</h3>
+              <ul>
+                <li><strong>Transacción ID:</strong> ${data.transactionId}</li>
+                <li><strong>Referencia:</strong> ${data.reference}</li>
+                <li><strong>Monto:</strong> $${(data.amount / 100).toFixed(2)}</li>
+                <li><strong>Tarjeta:</strong> ${data.cardBrand} ****${data.lastDigits}</li>
+                <li><strong>Correo:</strong> ${data.email}</li>
+                <li><strong>Teléfono:</strong> ${data.phoneNumber}</li>
+                <li><strong>Autorización:</strong> ${data.authorizationCode}</li>
+                <li><strong>Fecha:</strong> ${new Date(data.date).toLocaleString()}</li>
+                <li><strong>Cliente:</strong> ${data.document}</li>
+              </ul>
+            `;
+          } else {
+            div.innerHTML = "<h2 style='color:red;'>❌ Pago rechazado</h2>";
+          }
+        })
+        .catch(err => {
+          const div = document.getElementById("resultado");
+          div.innerHTML = "⚠️ Error al verificar pago.";
+          console.error(err);
+        });
+      }, 3000);
+    });
   </script>
 </body>
 </html>
