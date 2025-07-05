@@ -31,7 +31,7 @@
       .then(data => {
         console.log("🔍 Respuesta del backend:", data); 
         const div = document.getElementById("resultado");
-        if (data.status === "APPROVED") {
+        if (data.transactionStatus === "Approved") {
           div.innerHTML = "<h2 style='color:green;'>✅ Pago aprobado</h2>";
         } else {
           div.innerHTML = "<h2 style='color:red;'>❌ Pago rechazado</h2>";
