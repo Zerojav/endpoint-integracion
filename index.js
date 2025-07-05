@@ -39,7 +39,7 @@ app.post('/verificar-transaccion', async (req, res) => {
       },
       body: JSON.stringify({
         id: parseInt(id),
-        clientTransactionId
+        clientTxId
       })
     });
 
